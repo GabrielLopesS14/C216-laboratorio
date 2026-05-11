@@ -1,0 +1,42 @@
+services:
+  api:
+    build: .
+    container_name: middleware_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/items_db
+      - PYTHONPATH=/app
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=items_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./app/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  tests:
+    build: .
+    container_name: aula5_tests
+    command: pytest -v tests/test_main.py
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/items_db
+      - PYTHONPATH=/app
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
