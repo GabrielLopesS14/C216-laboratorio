@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre o Projeto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="container" style="margin: 20px; padding: 20px; background-color: white; border-radius: 8px;">
+        {% include '_messages.html' %}
+        
+        <h2>Sobre a Aplicação</h2>
+        <p>
+            Esta aplicação foi desenvolvida como parte da <strong>Aula 5</strong>, para entrega <strong>Flask</strong>, dessa aula em C216.
+        </p>
+
+        <hr style="border: 0; border-top: 1px solid #ccc; margin: 20px 0;">
+
+        <h3>Desenvolvedor</h3>
+        <ul>
+            <li><strong>Nome:</strong> Gabriel Lopes Silva</li>
+            <li><strong>Matrícula:</strong> 2043</li>
+            <li><strong>Curso:</strong> Engenharia da Computação - INATEL</li>
+        </ul>
+    </div>
+</body>
+</html>

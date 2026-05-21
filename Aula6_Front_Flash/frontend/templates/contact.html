@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="container" style="margin: 20px; padding: 20px; background-color: white; border-radius: 8px;">
+        {% include '_messages.html' %}
+        
+        <h2>Informações de Contato</h2>
+        <p>Entre em contato conosco através dos canais abaixo:</p>
+        <ul>
+            <li><strong>E-mail:</strong> g.lopes@gec.inatel.br</li>
+            <li><strong>Telefone:</strong> (35) 99999-1234</li>
+            <li><strong>Endereço:</strong> Rua 3, Santa Rita do Sapucaí - MG</li>
+        </ul>
+    </div>
+</body>
+</html>
