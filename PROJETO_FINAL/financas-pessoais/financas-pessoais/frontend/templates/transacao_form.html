@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}{{ "Editar" if transacao else "Nova" }} Transacao{% endblock %}
+{% block content %}
+<h2 class="mb-4">{{ "Editar" if transacao else "Nova" }} Transacao</h2>
+
+{% if not contas or not categorias %}
+  <div class="alert alert-warning">
+    Voce precisa ter pelo menos uma <strong>conta</strong> e uma <strong>categoria</strong>
+    cadastradas antes de criar uma transacao.
+  </div>
+{% endif %}
+
+<form method="post">
+  <div class="mb-3">
+    <label class="form-label">Descricao</label>
+    <input type="text" name="descricao" class="form-control"
+           value="{{ transacao.descricao if transacao else '' }}" required>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Valor (R$)</label>
+      <input type="number" step="0.01" name="valor" class="form-control"
+             value="{{ transacao.valor if transacao else '' }}" required>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Data</label>
+      <input type="date" name="data" class="form-control"
+             value="{{ transacao.data if transacao else '' }}" required>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Tipo</label>
+    <select name="tipo" class="form-select" required>
+      <option value="receita" {{ "selected" if transacao and transacao.tipo == "receita" else "" }}>Receita</option>
+      <option value="despesa" {{ "selected" if transacao and transacao.tipo == "despesa" else "" }}>Despesa</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Conta</label>
+      <select name="conta_id" class="form-select" required>
+        {% for c in contas %}
+          <option value="{{ c.id }}" {{ "selected" if transacao and transacao.conta_id == c.id else "" }}>{{ c.nome }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Categoria</label>
+      <select name="categoria_id" class="form-select" required>
+        {% for cat in categorias %}
+          <option value="{{ cat.id }}" {{ "selected" if transacao and transacao.categoria_id == cat.id else "" }}>{{ cat.nome }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Tags (segure Ctrl/Cmd para escolher varias)</label>
+    {% set tids = (transacao.tags | map(attribute='id') | list) if transacao else [] %}
+    <select name="tag_ids" class="form-select" multiple size="4">
+      {% for tag in tags %}
+        <option value="{{ tag.id }}" {{ "selected" if tag.id in tids else "" }}>{{ tag.nome }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-success">Salvar</button>
+  <a href="{{ url_for('transacoes') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

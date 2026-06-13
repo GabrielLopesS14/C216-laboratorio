@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Financas Pessoais{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Financas Pessoais</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('transacoes') }}">Transacoes</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('contas') }}">Contas</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('categorias') }}">Categorias</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('tags') }}">Tags</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('relatorios') }}">Relatorios</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </div>
+
+    <footer>Projeto Final - Controle de Financas Pessoais</footer>
+</body>
+</html>

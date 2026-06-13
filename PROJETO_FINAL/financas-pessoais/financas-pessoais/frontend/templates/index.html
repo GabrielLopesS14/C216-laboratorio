@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2 class="mb-4">Resumo Financeiro</h2>
+
+<div class="row mb-4">
+  <div class="col-md-4">
+    <div class="card text-bg-primary mb-3">
+      <div class="card-body">
+        <h6 class="card-title">Saldo Atual</h6>
+        <h3>R$ {{ "%.2f"|format(saldo) }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-bg-success mb-3">
+      <div class="card-body">
+        <h6 class="card-title">Receitas</h6>
+        <h3>R$ {{ "%.2f"|format(receitas) }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-bg-danger mb-3">
+      <div class="card-body">
+        <h6 class="card-title">Despesas</h6>
+        <h3>R$ {{ "%.2f"|format(despesas) }}</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h4>Ultimas transacoes</h4>
+{% if ultimas %}
+<table class="table table-striped">
+  <thead><tr><th>Data</th><th>Descricao</th><th>Tipo</th><th>Valor</th></tr></thead>
+  <tbody>
+  {% for t in ultimas %}
+    <tr>
+      <td>{{ t.data }}</td>
+      <td>{{ t.descricao }}</td>
+      <td>
+        {% if t.tipo == "receita" %}
+          <span class="badge bg-success">Receita</span>
+        {% else %}
+          <span class="badge bg-danger">Despesa</span>
+        {% endif %}
+      </td>
+      <td>R$ {{ "%.2f"|format(t.valor|float) }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="text-muted">Nenhuma transacao ainda. Comece cadastrando contas, categorias e depois uma transacao!</p>
+{% endif %}
+{% endblock %}

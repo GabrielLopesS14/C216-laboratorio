@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Tags{% endblock %}
+{% block content %}
+<h2 class="mb-3">Tags</h2>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Nova tag</h5>
+    <form method="post" class="row g-2">
+      <div class="col-md-9">
+        <input name="nome" class="form-control" placeholder="Nome (ex: viagem)" required>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-primary w-100">Adicionar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% if tags %}
+<table class="table table-striped align-middle">
+  <thead><tr><th>ID</th><th>Nome</th><th>Acoes</th></tr></thead>
+  <tbody>
+  {% for tag in tags %}
+    <tr>
+      <td>{{ tag.id }}</td>
+      <td><span class="badge bg-secondary">{{ tag.nome }}</span></td>
+      <td>
+        <a href="{{ url_for('excluir_tag', tag_id=tag.id) }}" class="btn btn-sm btn-danger"
+           onclick="return confirm('Excluir esta tag?')">Excluir</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="text-muted">Nenhuma tag cadastrada.</p>
+{% endif %}
+{% endblock %}

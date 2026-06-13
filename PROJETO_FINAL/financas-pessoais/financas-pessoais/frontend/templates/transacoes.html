@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Transacoes{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Transacoes</h2>
+  <a href="{{ url_for('nova_transacao') }}" class="btn btn-primary">+ Nova transacao</a>
+</div>
+
+{% if transacoes %}
+<table class="table table-hover align-middle">
+  <thead>
+    <tr>
+      <th>Data</th><th>Descricao</th><th>Categoria</th><th>Conta</th>
+      <th>Tags</th><th>Tipo</th><th>Valor</th><th>Acoes</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for t in transacoes %}
+    <tr>
+      <td>{{ t.data }}</td>
+      <td>{{ t.descricao }}</td>
+      <td>{{ t.categoria.nome if t.categoria else "-" }}</td>
+      <td>{{ t.conta.nome if t.conta else "-" }}</td>
+      <td>
+        {% for tag in t.tags %}
+          <span class="badge bg-secondary">{{ tag.nome }}</span>
+        {% endfor %}
+      </td>
+      <td>
+        {% if t.tipo == "receita" %}
+          <span class="badge bg-success">Receita</span>
+        {% else %}
+          <span class="badge bg-danger">Despesa</span>
+        {% endif %}
+      </td>
+      <td>R$ {{ "%.2f"|format(t.valor|float) }}</td>
+      <td>
+        <a href="{{ url_for('editar_transacao', transacao_id=t.id) }}" class="btn btn-sm btn-warning">Editar</a>
+        <a href="{{ url_for('excluir_transacao', transacao_id=t.id) }}" class="btn btn-sm btn-danger"
+           onclick="return confirm('Excluir esta transacao?')">Excluir</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="text-muted">Nenhuma transacao cadastrada.</p>
+{% endif %}
+{% endblock %}
